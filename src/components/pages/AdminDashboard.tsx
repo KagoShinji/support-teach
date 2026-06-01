@@ -24,7 +24,10 @@ import {
   ExternalLink,
   Shield, 
   RefreshCw,
-  Video
+  Video,
+  Search,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -41,6 +44,17 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [bundles, setBundles] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
+
+  // Search and Pagination State
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  // Reset pagination/search when switching tabs
+  useEffect(() => {
+    setSearchTerm('');
+    setCurrentPage(1);
+  }, [activeTab]);
 
   // Auth Protection Guard
   useEffect(() => {
@@ -183,6 +197,43 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
   const activeBundles = bundles.filter(b => b.status === 'new').length;
   const upcomingCalls = bookings.filter(bk => bk.status === 'scheduled').length;
 
+  // Search and Pagination Logic
+  const getFilteredAndPaginatedData = () => {
+    const term = searchTerm.toLowerCase();
+    let filtered = [];
+    
+    if (activeTab === 'inquiries') {
+      filtered = inquiries.filter(i => 
+        (i.contactName || '').toLowerCase().includes(term) ||
+        (i.contactEmail || '').toLowerCase().includes(term) ||
+        (i.orgName || '').toLowerCase().includes(term) ||
+        (i.service || '').toLowerCase().includes(term) ||
+        (i.description || '').toLowerCase().includes(term)
+      );
+    } else if (activeTab === 'bundles') {
+      filtered = bundles.filter(b => 
+        (b.name || '').toLowerCase().includes(term) ||
+        (b.email || '').toLowerCase().includes(term) ||
+        (b.orgName || '').toLowerCase().includes(term) ||
+        (b.bundleTitle || '').toLowerCase().includes(term) ||
+        (b.message || '').toLowerCase().includes(term)
+      );
+    } else if (activeTab === 'bookings') {
+      filtered = bookings.filter(b => 
+        (b.name || '').toLowerCase().includes(term) ||
+        (b.email || '').toLowerCase().includes(term) ||
+        (b.description || '').toLowerCase().includes(term)
+      );
+    }
+
+    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE) || 1;
+    const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+    return { filtered, paginated, totalPages };
+  };
+
+  const { paginated, totalPages } = getFilteredAndPaginatedData();
+
   return (
     <div className="min-h-screen bg-brand-light font-dm text-black pb-20">
       
@@ -312,6 +363,24 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
         {/* Tab Contents */}
         <div className="bg-white border-[3px] border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] p-6 md:p-8 min-h-[400px]">
           
+          {activeTab !== 'rules' && (
+            <div className="mb-6 relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full bg-gray-50 border-[2px] border-black pl-10 pr-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] font-bold placeholder-gray-500 transition-all hover:bg-white focus:bg-white"
+              />
+            </div>
+          )}
+
           {/* TAB 1: INQUIRIES */}
           {activeTab === 'inquiries' && (
             <div className="space-y-6">
@@ -322,7 +391,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                 </span>
               </div>
 
-              {inquiries.length === 0 ? (
+              {paginated.length === 0 ? (
                 <div className="text-center py-20">
                   <MessageSquare className="w-16 h-16 mx-auto text-gray-300 mb-4" />
                   <p className="text-gray-500 font-bold text-lg">No inquiries submitted yet.</p>
@@ -342,7 +411,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                       </tr>
                     </thead>
                     <tbody className="divide-y border-black divide-black">
-                      {inquiries.map((inq) => (
+                      {paginated.map((inq) => (
                         <tr key={inq.id} className={`hover:bg-gray-50/50 ${inq.status !== 'new' ? 'opacity-60 bg-gray-50' : ''}`}>
                           <td className="p-3.5 border-r border-black font-mono text-[12px] whitespace-nowrap">
                             {formatTime(inq.createdAt)}
@@ -406,7 +475,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                 </span>
               </div>
 
-              {bundles.length === 0 ? (
+              {paginated.length === 0 ? (
                 <div className="text-center py-20">
                   <Package className="w-16 h-16 mx-auto text-gray-300 mb-4" />
                   <p className="text-gray-500 font-bold text-lg">No bundle selection submissions yet.</p>
@@ -427,7 +496,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                       </tr>
                     </thead>
                     <tbody className="divide-y border-black divide-black">
-                      {bundles.map((bundle) => (
+                      {paginated.map((bundle) => (
                         <tr key={bundle.id} className={`hover:bg-gray-50/50 ${bundle.status !== 'new' ? 'opacity-60 bg-gray-50' : ''}`}>
                           <td className="p-3.5 border-r border-black font-mono text-[12px] whitespace-nowrap">
                             {formatTime(bundle.createdAt)}
@@ -493,7 +562,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                 </span>
               </div>
 
-              {bookings.length === 0 ? (
+              {paginated.length === 0 ? (
                 <div className="text-center py-20">
                   <Calendar className="w-16 h-16 mx-auto text-gray-300 mb-4" />
                   <p className="text-gray-500 font-bold text-lg">No calls scheduled yet.</p>
@@ -513,7 +582,7 @@ export const AdminDashboard = ({ navigateTo }: AdminDashboardProps) => {
                       </tr>
                     </thead>
                     <tbody className="divide-y border-black divide-black">
-                      {bookings.map((booking) => {
+                      {paginated.map((booking) => {
                         return (
                           <tr key={booking.id} className={`hover:bg-gray-50/50 ${booking.status !== 'scheduled' ? 'opacity-60 bg-gray-50' : ''}`}>
                             <td className="p-3.5 border-r border-black whitespace-nowrap bg-blue-50/20">
@@ -650,6 +719,29 @@ service cloud.firestore {
                   </ol>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {activeTab !== 'rules' && totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-between border-t-2 border-black pt-6">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 px-4 py-2 bg-white border-[2px] border-black font-black text-[14px] shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 active:translate-y-0 transition-transform disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" /> Previous
+              </button>
+              <span className="font-bold text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-1 px-4 py-2 bg-white border-[2px] border-black font-black text-[14px] shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 active:translate-y-0 transition-transform disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 cursor-pointer"
+              >
+                Next <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           )}
 
