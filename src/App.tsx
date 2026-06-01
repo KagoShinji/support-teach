@@ -13,8 +13,24 @@ import { WhoWeSupport } from './components/sections/WhoWeSupport';
 import { PoweredByEducators } from './components/sections/PoweredByEducators';
 import { ContactForm } from './components/sections/ContactForm';
 import { FinalCTA } from './components/sections/FinalCTA';
+import { AlienPage } from './components/pages/AlienPage';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  if (currentPath !== '/') {
+    return <AlienPage />;
+  }
+
   return (
     <div className="min-h-screen bg-brand-light font-dm">
       <Navbar />
