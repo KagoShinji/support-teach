@@ -105,7 +105,7 @@ export const SplashScreen = () => {
               className="flex items-center"
             >
               <span className="font-dm text-5xl md:text-7xl font-black tracking-tight text-black">
-                Teach<span className="text-[#21C57D] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">Team</span>
+                Support<span className="text-[#21C57D] drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">Teach</span>
               </span>
             </motion.div>
 
