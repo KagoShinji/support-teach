@@ -16,9 +16,7 @@ import { FinalCTA } from './components/sections/FinalCTA';
 import { AlienPage } from './components/pages/AlienPage';
 import { SplashScreen } from './components/ui/SplashScreen';
 
-// Import New Admin / Call Room Pages
 import { AdminLogin } from './components/pages/AdminLogin';
-import { AdminRegister } from './components/pages/AdminRegister';
 import { AdminDashboard } from './components/pages/AdminDashboard';
 import { CallRoom } from './components/pages/CallRoom';
 
@@ -47,9 +45,7 @@ function App() {
     return <AdminLogin navigateTo={navigateTo} />;
   }
 
-  if (currentPath === '/admin/register') {
-    return <AdminRegister navigateTo={navigateTo} />;
-  }
+
 
   if (currentPath.startsWith('/call/')) {
     const bookingId = currentPath.split('/call/')[1] || '';

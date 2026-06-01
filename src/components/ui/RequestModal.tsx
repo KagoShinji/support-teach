@@ -13,6 +13,7 @@ interface RequestModalProps {
 export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
   const [status, setStatus] = useState<StatusType>('idle');
   const [error, setError] = useState<string | null>(null);
+  const isLoading = status === 'loading';
 
   const [formData, setFormData] = useState({
     contactName: '',
@@ -116,7 +117,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 placeholder-gray-500 font-bold text-[14px]" 
               placeholder="Your Name" 
               required 
-              disabled={status === 'loading'}
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-1">
@@ -129,7 +130,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 placeholder-gray-500 font-bold text-[14px]" 
               placeholder="you@example.com" 
               required 
-              disabled={status === 'loading'}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -145,7 +146,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 placeholder-gray-500 font-bold text-[14px]" 
               placeholder="+1 (555) 000-0000" 
               required 
-              disabled={status === 'loading'}
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-1">
@@ -158,7 +159,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 placeholder-gray-500 font-bold text-[14px]" 
               placeholder="E.g. Global University" 
               required 
-              disabled={status === 'loading'}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -172,7 +173,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               onChange={handleChange}
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 appearance-none font-bold text-[14px]" 
               required
-              disabled={status === 'loading'}
+              disabled={isLoading}
             >
               <option value="" disabled>Select a service</option>
               <option value="assessment">Assessment Development</option>
@@ -191,7 +192,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
               className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 placeholder-gray-500 font-bold text-[14px]" 
               placeholder="City, Country" 
               required 
-              disabled={status === 'loading'}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -206,7 +207,7 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
             className="w-full bg-gray-50 border-[2px] border-black rounded-none px-3 py-2 text-black focus:outline-none focus:ring-0 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-0.5 focus:-translate-x-0.5 resize-none placeholder-gray-500 font-bold text-[14px]" 
             placeholder="What are you trying to achieve?" 
             required
-            disabled={status === 'loading'}
+            disabled={isLoading}
           ></textarea>
         </div>
 
@@ -216,9 +217,9 @@ export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
             variant="primary" 
             showIcon 
             className="w-full text-[15px] py-3 rounded-none shadow-[3px_3px_0px_rgba(0,0,0,1)] border-[2px] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-0 active:translate-x-0"
-            disabled={status === 'loading'}
+            disabled={isLoading}
           >
-            {status === 'loading' ? 'Submitting...' : 'Submit Request'}
+            {isLoading ? 'Submitting...' : 'Submit Request'}
           </Button>
         </div>
       </form>

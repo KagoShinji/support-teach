@@ -146,17 +146,7 @@ export const AdminLogin = ({ navigateTo }: AdminLoginProps) => {
               </Button>
             </div>
           </form>
-
-          <div className="mt-8 pt-6 border-t-2 border-dashed border-black/20 text-center">
-            <span className="text-[14px] text-gray-500 font-bold">New admin account? </span>
-            <button 
-              onClick={() => navigateTo('/admin/register')}
-              className="text-[14px] font-black underline hover:text-[#21C57D] cursor-pointer"
-            >
-              Register here
-            </button>
-          </div>
-        </Card>
+         </Card>
       </div>
     </div>
   );
