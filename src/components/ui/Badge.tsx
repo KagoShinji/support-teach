@@ -4,8 +4,8 @@ import { cn } from "../../lib/utils";
 export const Badge = ({ children, className }: { children: React.ReactNode, className?: string }) => {
   return (
     <span className={cn(
-      "inline-flex items-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] font-mono",
-      "bg-brand-violet/10 text-brand-violet ring-1 ring-inset ring-brand-violet/20",
+      "inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em]",
+      "bg-[#FFD147] text-black border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
       className
     )}>
       {children}

@@ -4,11 +4,9 @@ import { cn } from "../../lib/utils";
 export const SectionLabel = ({ children, className, center = false }: { children: React.ReactNode, className?: string, center?: boolean }) => {
   return (
     <div className={cn("flex items-center gap-3", center && "justify-center", className)}>
-      {!center && <span className="h-px w-6 bg-brand-coral"></span>}
-      <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-brand-coral">
+      <span className="font-dm text-[12px] font-bold uppercase tracking-[0.15em] text-black bg-[#21C57D] px-4 py-1.5 rounded-full border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
         {children}
       </span>
-      {center && <span className="h-px w-6 bg-brand-coral hidden sm:block"></span>}
     </div>
   );
 };

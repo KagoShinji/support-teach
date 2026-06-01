@@ -9,7 +9,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply font-dm text-[#0C0A09] bg-brand-light antialiased selection:bg-brand-coral selection:text-white min-h-[100dvh];
+    @apply font-dm text-[#0C0A09] bg-[#F8F9FA] antialiased selection:bg-[#21C57D] selection:text-black min-h-[100dvh];
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -21,17 +21,23 @@
   .bezier-transition {
     @apply transition-all duration-300 ease-out;
   }
-  
-  .glass-panel {
-    @apply backdrop-blur-[16px] bg-white/70 border border-white/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] shadow-sm;
+
+  .bg-polka-dots {
+    background-image: radial-gradient(circle, #000000 2.5px, transparent 2.5px);
+    background-size: 32px 32px;
   }
-  
-  .glass-card {
-    @apply backdrop-blur-[12px] bg-white/60 border border-white/40 shadow-lg shadow-black/[0.03] p-8 rounded-2xl relative overflow-hidden;
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(0,0,0,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.15) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
-  
-  .glass-card-dark {
-    @apply backdrop-blur-[16px] bg-brand-indigo/90 border border-white/10 shadow-xl shadow-black/20 p-8 rounded-2xl relative overflow-hidden;
+
+  .bg-warning-tape {
+    background: repeating-linear-gradient(-45deg, #FFD147, #FFD147 24px, #0C0A09 24px, #0C0A09 48px);
+  }
+
+  .bg-diagonal-stripes {
+    background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
   }
 
   @keyframes marquee {

@@ -2,37 +2,46 @@ import type { FC } from 'react';
 import { SectionLabel } from '../ui/SectionLabel';
 import { Button } from '../ui/Button';
 import { Mail, MessageSquare } from 'lucide-react';
+import { Card } from '../ui/Card';
 
 export const ContactForm: FC = () => {
   return (
-    <section id="contact" className="relative py-24 lg:py-40 bg-brand-indigo overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+    <section id="contact" className="relative py-24 lg:py-40 bg-[#FFD147] overflow-hidden border-b-2 border-black">
       
-      {/* Soft orb background */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-coral/10 rounded-full blur-[100px] opacity-80" />
-      
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      {/* Decorative Geometric Shapes */}
+      <div className="absolute top-20 left-10 text-white -z-0 opacity-100 rotate-12 hidden lg:block">
+        <svg width="100" height="100" viewBox="0 0 100 100" className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+          <polygon points="50,10 90,90 10,90" fill="currentColor" stroke="black" strokeWidth="4" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div className="absolute bottom-20 left-1/3 text-[#21C57D] -z-0 opacity-100 -rotate-12 hidden lg:block">
+        <svg width="80" height="80" viewBox="0 0 100 100" className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+          <circle cx="50" cy="50" r="40" fill="currentColor" stroke="black" strokeWidth="4" />
+        </svg>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           <div>
-            <SectionLabel className="mb-6">Submit Touch</SectionLabel>
-            <h2 className="text-4xl lg:text-5xl font-dm font-bold text-white leading-tight tracking-tight mb-6">
+            <SectionLabel className="mb-6 bg-white border-[1.5px] border-black text-black">Submit Touch</SectionLabel>
+            <h2 className="text-4xl lg:text-6xl font-dm font-bold text-black leading-tight tracking-tight mb-6">
               Submit a Request
             </h2>
-            <p className="text-white/60 text-lg font-normal leading-relaxed mb-12 max-w-md">
+            <p className="text-gray-900 text-[17px] font-bold leading-relaxed mb-12 max-w-md">
               Tell us a bit about your project or content needs, and our team will get back to you with a tailored plan.
             </p>
 
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/80">Organization Name</label>
-                <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-brand-coral/50 transition-all placeholder-white/20" placeholder="E.g. Global University" />
+                <label className="text-[15px] font-bold text-black">Organization Name</label>
+                <input type="text" className="w-full bg-white border-[1.5px] border-black rounded-xl px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all placeholder-gray-500 font-medium" placeholder="E.g. Global University" />
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/80">Service Needed</label>
-                  <select className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white/50 focus:text-white focus:outline-none focus:ring-1 focus:ring-brand-coral/50 transition-all appearance-none" defaultValue="">
+                  <label className="text-[15px] font-bold text-black">Service Needed</label>
+                  <select className="w-full bg-white border-[1.5px] border-black rounded-xl px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all appearance-none font-medium" defaultValue="">
                     <option value="" disabled>Select a service</option>
                     <option value="assessment">Assessment Development</option>
                     <option value="curriculum">Curriculum Structuring</option>
@@ -40,14 +49,14 @@ export const ContactForm: FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/80">Location</label>
-                  <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-brand-coral/50 transition-all placeholder-white/20" placeholder="City, Country" />
+                  <label className="text-[15px] font-bold text-black">Location</label>
+                  <input type="text" className="w-full bg-white border-[1.5px] border-black rounded-xl px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all placeholder-gray-500 font-medium" placeholder="City, Country" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white/80">Tell us about your project</label>
-                <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-brand-coral/50 transition-all resize-none placeholder-white/20" placeholder="What are you trying to achieve?"></textarea>
+                <label className="text-[15px] font-bold text-black">Tell us about your project</label>
+                <textarea rows={4} className="w-full bg-white border-[1.5px] border-black rounded-xl px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all resize-none placeholder-gray-500 font-medium" placeholder="What are you trying to achieve?"></textarea>
               </div>
 
               <div className="pt-4">
@@ -58,34 +67,34 @@ export const ContactForm: FC = () => {
 
           <div className="relative flex items-center justify-center lg:justify-end">
             <div className="w-full max-w-md relative group">
-              <div className="glass-card-dark w-full p-10 relative overflow-hidden">
+              <Card className="w-full p-10 bg-white border-[1.5px] border-black shadow-[6px_6px_0px_rgba(0,0,0,1)]">
                  
                  <div className="relative z-10 flex flex-col gap-10">
                    <div>
-                     <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-white mb-6 backdrop-blur-md">
-                       <MessageSquare className="w-6 h-6" />
+                     <div className="h-14 w-14 rounded-xl bg-[#21C57D] border-[1.5px] border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center justify-center text-black mb-6">
+                       <MessageSquare className="w-7 h-7" strokeWidth={2} />
                      </div>
-                     <h3 className="text-xl font-dm font-bold text-white mb-2">Prefer to talk directly?</h3>
-                     <p className="text-white/60 font-normal text-sm">Skip the form and jump straight on a call with our academic team.</p>
-                     <Button variant="ghost" className="mt-4 px-0 hover:bg-transparent text-brand-coral group/link border-none shadow-none font-bold">
+                     <h3 className="text-2xl font-dm font-bold text-black mb-2">Prefer to talk directly?</h3>
+                     <p className="text-gray-700 font-medium text-[15px]">Skip the form and jump straight on a call with our academic team.</p>
+                     <Button variant="ghost" className="mt-4 px-0 hover:bg-transparent text-black group/link border-none shadow-none font-bold underline underline-offset-4 decoration-2 decoration-black">
                        Book a Call 
                        <span className="ml-2 transition-transform group-hover/link:translate-x-1">→</span>
                      </Button>
                    </div>
 
-                   <div className="h-px w-full bg-white/10" />
+                   <div className="h-[2px] w-full bg-black/10" />
 
                    <div>
-                     <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-white mb-6 backdrop-blur-md">
-                       <Mail className="w-6 h-6" />
+                     <div className="h-14 w-14 rounded-xl bg-[#FFD147] border-[1.5px] border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center justify-center text-black mb-6">
+                       <Mail className="w-7 h-7" strokeWidth={2} />
                      </div>
-                     <h3 className="text-xl font-dm font-bold text-white mb-2">General inquiries</h3>
-                     <p className="text-white/60 font-normal text-sm mb-1">hello@teachteam.com</p>
-                     <p className="text-white/60 font-normal text-sm">1-800-TEACH-TM</p>
+                     <h3 className="text-2xl font-dm font-bold text-black mb-2">General inquiries</h3>
+                     <p className="text-gray-700 font-bold text-[15px] mb-1">hello@teachteam.com</p>
+                     <p className="text-gray-700 font-bold text-[15px]">1-800-TEACH-TM</p>
                    </div>
                  </div>
 
-              </div>
+              </Card>
             </div>
           </div>
         </div>
