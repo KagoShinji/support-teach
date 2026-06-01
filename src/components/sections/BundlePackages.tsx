@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BUNDLE_CURRICULUM as BUNDLE_PACKAGES } from '../../data/content';
 import { SectionLabel } from '../ui/SectionLabel';
 import { Button } from '../ui/Button';
@@ -5,8 +6,18 @@ import { Card } from '../ui/Card';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { staggerContainer, brutalistPop, brutalistSpinIn } from '../../utils/animations';
+import { BundleLeadModal } from '../ui/BundleLeadModal';
+import type { BundlePackage } from '../../types';
 
 export const BundlePackages = () => {
+  const [selectedBundle, setSelectedBundle] = useState<BundlePackage | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGetStarted = (bundle: BundlePackage) => {
+    setSelectedBundle(bundle);
+    setIsModalOpen(true);
+  };
+
   return (
     <section id="bundles" className="relative py-24 lg:py-40 bg-[#F8F9FA] bg-grid-pattern border-b-2 border-black overflow-hidden">
       
@@ -104,7 +115,8 @@ export const BundlePackages = () => {
                      
                      <Button 
                        variant={bundle.isPopular ? 'primary' : 'outline'} 
-                       className="w-full justify-center"
+                       className="w-full justify-center cursor-pointer"
+                       onClick={() => handleGetStarted(bundle)}
                      >
                        Get Started
                      </Button>
@@ -117,6 +129,12 @@ export const BundlePackages = () => {
         </motion.div>
 
       </div>
+
+      <BundleLeadModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        bundle={selectedBundle}
+      />
     </section>
   );
 };

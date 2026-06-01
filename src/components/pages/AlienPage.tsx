@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
-import { brutalistPop, brutalistSpinIn } from '../../utils/animations';
+import { brutalistSpinIn } from '../../utils/animations';
 
 export const AlienPage = () => {
   return (

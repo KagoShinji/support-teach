@@ -7,22 +7,62 @@ import { Card } from '../ui/Card';
 import { motion } from 'framer-motion';
 import { brutalistSlideLeft, brutalistSlideRight, brutalistSpinIn } from '../../utils/animations';
 import { StatusModal, type StatusType } from '../ui/StatusModal';
+import { BookCallModal } from '../ui/BookCallModal';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 export const ContactForm: FC = () => {
   const [modalState, setModalState] = useState<{isOpen: boolean; status: StatusType}>({
     isOpen: false,
     status: 'idle'
   });
+  const [isBookCallOpen, setIsBookCallOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    contactName: '',
+    contactEmail: '',
+    contactPhone: '',
+    orgName: '',
+    service: '',
+    location: '',
+    description: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setModalState({ isOpen: true, status: 'loading' });
-    
-    // Simulate API call
-    setTimeout(() => {
+    setError(null);
+
+    try {
+      await addDoc(collection(db, 'inquiries'), {
+        ...formData,
+        status: 'new',
+        createdAt: serverTimestamp()
+      });
       setModalState({ isOpen: true, status: 'success' });
-    }, 1500);
+      // Reset form
+      setFormData({
+        contactName: '',
+        contactEmail: '',
+        contactPhone: '',
+        orgName: '',
+        service: '',
+        location: '',
+        description: ''
+      });
+    } catch (err) {
+      console.error('Error submitting inquiry:', err);
+      setError('Something went wrong. Please try again.');
+      setModalState({ isOpen: true, status: 'error' });
+    }
   };
+
   return (
     <section id="contact" className="relative py-24 lg:py-40 bg-[#FFD147] bg-polka-dots overflow-hidden border-b-2 border-black">
       
@@ -70,35 +110,128 @@ export const ContactForm: FC = () => {
                 Tell us a bit about your project or content needs, and our team will get back to you with a tailored plan.
               </p>
 
+              {error && (
+                <div className="bg-[#FF4747] text-black border-[2px] border-black p-3 mb-6 font-bold text-[14px] shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                  {error}
+                </div>
+              )}
+
               <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <label className="text-[16px] font-bold text-black uppercase tracking-wider">Organization Name</label>
-                  <input type="text" className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" placeholder="E.g. Global University" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[16px] font-bold text-black uppercase tracking-wider">Contact Name</label>
+                    <input 
+                      type="text" 
+                      name="contactName"
+                      value={formData.contactName}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" 
+                      placeholder="Your Name" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[16px] font-bold text-black uppercase tracking-wider">Email Address</label>
+                    <input 
+                      type="email" 
+                      name="contactEmail"
+                      value={formData.contactEmail}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" 
+                      placeholder="you@example.com" 
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[16px] font-bold text-black uppercase tracking-wider">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      name="contactPhone"
+                      value={formData.contactPhone}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" 
+                      placeholder="+1 (555) 000-0000" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[16px] font-bold text-black uppercase tracking-wider">Organization Name</label>
+                    <input 
+                      type="text" 
+                      name="orgName"
+                      value={formData.orgName}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" 
+                      placeholder="E.g. Global University" 
+                    />
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[16px] font-bold text-black uppercase tracking-wider">Service Needed</label>
-                    <select className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 appearance-none font-bold" defaultValue="">
+                    <select 
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 appearance-none font-bold"
+                    >
                       <option value="" disabled>Select a service</option>
                       <option value="assessment">Assessment Development</option>
                       <option value="curriculum">Curriculum Structuring</option>
                       <option value="instructional">Instructional Materials</option>
+                      <option value="other">Other / Custom Services</option>
                     </select>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[16px] font-bold text-black uppercase tracking-wider">Location</label>
-                    <input type="text" className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" placeholder="City, Country" />
+                    <input 
+                      type="text" 
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      required
+                      disabled={modalState.status === 'loading'}
+                      className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 placeholder-gray-500 font-bold" 
+                      placeholder="City, Country" 
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[16px] font-bold text-black uppercase tracking-wider">Tell us about your project</label>
-                  <textarea rows={4} className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 resize-none placeholder-gray-500 font-bold" placeholder="What are you trying to achieve?"></textarea>
+                  <textarea 
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    disabled={modalState.status === 'loading'}
+                    rows={4} 
+                    className="w-full bg-gray-50 border-[2px] border-black rounded-none px-4 py-3 text-black focus:outline-none focus:ring-0 shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-transform focus:-translate-y-1 focus:-translate-x-1 resize-none placeholder-gray-500 font-bold" 
+                    placeholder="What are you trying to achieve?"
+                  ></textarea>
                 </div>
 
                 <div className="pt-6">
-                   <Button type="submit" variant="primary" showIcon className="w-full sm:w-auto text-[18px] py-4 rounded-none shadow-[4px_4px_0px_rgba(0,0,0,1)] border-[2px] hover:-translate-y-1 hover:-translate-x-1 active:translate-y-0 active:translate-x-0">Submit Request</Button>
+                   <Button 
+                     type="submit" 
+                     variant="primary" 
+                     showIcon 
+                     disabled={modalState.status === 'loading'}
+                     className="w-full sm:w-auto text-[18px] py-4 rounded-none shadow-[4px_4px_0px_rgba(0,0,0,1)] border-[2px] hover:-translate-y-1 hover:-translate-x-1 active:translate-y-0 active:translate-x-0 cursor-pointer"
+                   >
+                     {modalState.status === 'loading' ? 'Submitting...' : 'Submit Request'}
+                   </Button>
                 </div>
               </form>
             </div>
@@ -121,7 +254,13 @@ export const ContactForm: FC = () => {
                      </div>
                      <h3 className="text-3xl font-dm font-black text-black mb-3">Prefer to talk directly?</h3>
                      <p className="text-gray-900 font-bold text-[17px]">Skip the form and jump straight on a call with our academic team.</p>
-                     <Button variant="ghost" className="mt-6 px-0 hover:bg-transparent text-black group/link border-none shadow-none font-black underline underline-offset-8 decoration-[3px] decoration-black text-[18px]">
+                     
+                     <Button 
+                       type="button"
+                       onClick={() => setIsBookCallOpen(true)}
+                       variant="ghost" 
+                       className="mt-6 px-0 hover:bg-transparent text-black group/link border-none shadow-none font-black underline underline-offset-8 decoration-[3px] decoration-black text-[18px] cursor-pointer"
+                     >
                        Book a Call 
                        <span className="ml-3 transition-transform group-hover/link:translate-x-2">→</span>
                      </Button>
@@ -151,9 +290,27 @@ export const ContactForm: FC = () => {
         isOpen={modalState.isOpen} 
         onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
         status={modalState.status}
-        title={modalState.status === 'success' ? "Request Submitted!" : "Submitting Request..."}
-        message={modalState.status === 'success' ? "Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive." : "Please wait while we beam your request to our servers."}
+        title={
+          modalState.status === 'success' 
+            ? "Request Submitted!" 
+            : modalState.status === 'error'
+            ? "Submission Failed"
+            : "Submitting Request..."
+        }
+        message={
+          modalState.status === 'success' 
+            ? "Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive." 
+            : modalState.status === 'error'
+            ? "There was an error submitting your request. Please try again or book a call directly."
+            : "Please wait while we beam your request to our servers."
+        }
         primaryAction={{ label: "Got it!", onClick: () => setModalState(prev => ({ ...prev, isOpen: false })) }}
+      />
+
+      {/* Book Call Modal */}
+      <BookCallModal 
+        isOpen={isBookCallOpen} 
+        onClose={() => setIsBookCallOpen(false)}
       />
     </section>
   );

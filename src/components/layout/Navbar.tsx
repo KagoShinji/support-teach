@@ -18,15 +18,15 @@ export const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'py-4 bg-[#F8F9FA] border-b-[3px] border-black shadow-[0px_4px_0px_rgba(0,0,0,1)]' : 'pt-8 pb-4 bg-transparent'}`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        
+
         {/* Logo */}
         <div className="flex items-center gap-2 group cursor-pointer">
           <div className="h-10 w-10 bg-[#FFD147] border-[2px] border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center -rotate-3 transition-transform group-hover:rotate-0 group-hover:scale-110">
             <BookOpen className="w-6 h-6 text-black" strokeWidth={2.5} />
           </div>
-          <span className="font-dm text-3xl font-black tracking-tight text-black ml-1">Teach<span className="text-[#21C57D] drop-shadow-[1px_1px_0px_rgba(0,0,0,1)]">Team</span></span>
+          <span className="font-dm text-3xl font-black tracking-tight text-black ml-1">Support<span className="text-[#21C57D] drop-shadow-[1px_1px_0px_rgba(0,0,0,1)]">Teach</span></span>
         </div>
-        
+
         {/* Links */}
         <div className="hidden md:flex items-center gap-8">
           <a href="#services" className="text-[15px] font-semibold text-black/80 hover:text-black transition-colors">Services</a>
@@ -40,7 +40,7 @@ export const Navbar = () => {
           <a href="#contact" className="text-[15px] font-semibold text-black hover:text-black/80 transition-colors">
             Book a Call
           </a>
-          <button 
+          <button
             onClick={() => setIsRequestModalOpen(true)}
             className="bg-[#21C57D] text-black text-[15px] font-semibold px-6 py-2 rounded-full border-[1.5px] border-black shadow-[2px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[1px] hover:shadow-[1px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-none transition-all"
           >
@@ -49,7 +49,7 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button 
+        <button
           className="md:hidden relative h-10 w-10 ml-auto focus:outline-none flex flex-col items-center justify-center gap-[5px]"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -58,7 +58,7 @@ export const Navbar = () => {
           <span className={`h-0.5 w-6 bg-black transition-transform duration-200 ${isOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
       </div>
-      
+
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 z-40 bg-white transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex h-full flex-col items-center justify-center gap-8 pt-20">
@@ -66,12 +66,12 @@ export const Navbar = () => {
           <a href="#bundles" className="text-3xl font-dm font-bold text-black" onClick={() => setIsOpen(false)}>Bundles</a>
           <a href="#about" className="text-3xl font-dm font-bold text-black" onClick={() => setIsOpen(false)}>About</a>
           <a href="#partners" className="text-3xl font-dm font-bold text-black" onClick={() => setIsOpen(false)}>Partners</a>
-          
+
           <div className="mt-8 flex flex-col items-center gap-6">
             <a href="#contact" onClick={() => setIsOpen(false)} className="text-xl font-semibold text-black">
               Book a Call
             </a>
-            <button 
+            <button
               onClick={() => {
                 setIsOpen(false);
                 setIsRequestModalOpen(true);
@@ -84,9 +84,9 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <RequestModal 
-        isOpen={isRequestModalOpen} 
-        onClose={() => setIsRequestModalOpen(false)} 
+      <RequestModal
+        isOpen={isRequestModalOpen}
+        onClose={() => setIsRequestModalOpen(false)}
       />
     </nav>
   );

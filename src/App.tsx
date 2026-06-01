@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
@@ -15,7 +15,12 @@ import { ContactForm } from './components/sections/ContactForm';
 import { FinalCTA } from './components/sections/FinalCTA';
 import { AlienPage } from './components/pages/AlienPage';
 import { SplashScreen } from './components/ui/SplashScreen';
-import { useEffect, useState } from 'react';
+
+// Import New Admin / Call Room Pages
+import { AdminLogin } from './components/pages/AdminLogin';
+import { AdminRegister } from './components/pages/AdminRegister';
+import { AdminDashboard } from './components/pages/AdminDashboard';
+import { CallRoom } from './components/pages/CallRoom';
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -27,6 +32,29 @@ function App() {
     window.addEventListener('popstate', handleLocationChange);
     return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+  };
+
+  // Route Handling
+  if (currentPath === '/admin') {
+    return <AdminDashboard navigateTo={navigateTo} />;
+  }
+
+  if (currentPath === '/admin/login') {
+    return <AdminLogin navigateTo={navigateTo} />;
+  }
+
+  if (currentPath === '/admin/register') {
+    return <AdminRegister navigateTo={navigateTo} />;
+  }
+
+  if (currentPath.startsWith('/call/')) {
+    const bookingId = currentPath.split('/call/')[1] || '';
+    return <CallRoom bookingId={bookingId} navigateTo={navigateTo} />;
+  }
 
   if (currentPath !== '/') {
     return <AlienPage />;
