@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Sora:wght@100..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-dm text-[#0C0A09] bg-brand-light antialiased selection:bg-brand-coral selection:text-white min-h-[100dvh];
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-dm tracking-tight;
+  }
+}
+
+@layer utilities {
+  .bezier-transition {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .glass-panel {
+    @apply backdrop-blur-[16px] bg-white/70 border border-white/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] shadow-sm;
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-[12px] bg-white/60 border border-white/40 shadow-lg shadow-black/[0.03] p-8 rounded-2xl relative overflow-hidden;
+  }
+  
+  .glass-card-dark {
+    @apply backdrop-blur-[16px] bg-brand-indigo/90 border border-white/10 shadow-xl shadow-black/20 p-8 rounded-2xl relative overflow-hidden;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
