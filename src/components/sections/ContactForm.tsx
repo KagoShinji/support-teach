@@ -6,14 +6,22 @@ import { Mail, MessageSquare } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { motion } from 'framer-motion';
 import { brutalistSlideLeft, brutalistSlideRight, brutalistSpinIn } from '../../utils/animations';
-import { Modal } from '../ui/Modal';
+import { StatusModal, type StatusType } from '../ui/StatusModal';
 
 export const ContactForm: FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalState, setModalState] = useState<{isOpen: boolean; status: StatusType}>({
+    isOpen: false,
+    status: 'idle'
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsModalOpen(true);
+    setModalState({ isOpen: true, status: 'loading' });
+    
+    // Simulate API call
+    setTimeout(() => {
+      setModalState({ isOpen: true, status: 'success' });
+    }, 1500);
   };
   return (
     <section id="contact" className="relative py-24 lg:py-40 bg-[#FFD147] bg-polka-dots overflow-hidden border-b-2 border-black">
@@ -138,17 +146,15 @@ export const ContactForm: FC = () => {
 
       </div>
 
-      {/* Success Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
-        title="Request Submitted!"
-        primaryAction={{ label: "Got it!", onClick: () => setIsModalOpen(false) }}
-      >
-        <p>
-          Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive.
-        </p>
-      </Modal>
+      {/* Status Modal */}
+      <StatusModal 
+        isOpen={modalState.isOpen} 
+        onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
+        status={modalState.status}
+        title={modalState.status === 'success' ? "Request Submitted!" : "Submitting Request..."}
+        message={modalState.status === 'success' ? "Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive." : "Please wait while we beam your request to our servers."}
+        primaryAction={{ label: "Got it!", onClick: () => setModalState(prev => ({ ...prev, isOpen: false })) }}
+      />
     </section>
   );
 };

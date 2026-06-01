@@ -78,7 +78,7 @@ export const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
-            className="relative w-full h-[600px] lg:h-[750px]"
+            className="relative w-full h-[400px] md:h-[600px] lg:h-[750px]"
           >
             
             {/* Background Blobs */}
@@ -111,7 +111,7 @@ export const Hero = () => {
               variants={staggerContainer}
               initial="hidden"
               animate="show"
-              className="absolute right-0 lg:right-[-2%] top-[18%] flex flex-col gap-3 z-20 items-end"
+              className="absolute right-0 lg:right-[-2%] top-[10%] lg:top-[18%] flex-col gap-3 z-20 items-end hidden sm:flex scale-75 lg:scale-100 origin-right"
             >
               <motion.div variants={brutalistPop} className="bg-[#FFD147] px-5 py-2.5 rounded-full border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black font-bold text-[14px] whitespace-nowrap">
                 Assessment Design
@@ -132,7 +132,7 @@ export const Hero = () => {
               variants={brutalistPop}
               initial="hidden"
               animate="show"
-              className="absolute right-[-10%] lg:right-[-8%] bottom-[22%] bg-white p-4 rounded-xl border-[1.5px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 flex gap-4 items-start max-w-[260px]"
+              className="absolute right-2 lg:right-[-8%] bottom-[15%] lg:bottom-[22%] bg-white p-4 rounded-xl border-[1.5px] border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 hidden md:flex gap-4 items-start max-w-[260px]"
             >
               <div className="bg-[#FFD147] p-2 rounded-full border-[1.5px] border-black shrink-0 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] mt-1">
                 <Star className="w-4 h-4 text-black fill-black" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
 import { Button } from './Button';
+import { StatusModal, type StatusType } from './StatusModal';
 
 interface RequestModalProps {
   isOpen: boolean;
@@ -8,31 +9,34 @@ interface RequestModalProps {
 }
 
 export const RequestModal = ({ isOpen, onClose }: RequestModalProps) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState<StatusType>('idle');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setStatus('loading');
+    
+    // Simulate API Call
+    setTimeout(() => {
+      setStatus('success');
+    }, 1500);
   };
 
   const handleClose = () => {
     onClose();
     // Reset state after a short delay so the close animation looks clean
-    setTimeout(() => setIsSubmitted(false), 300);
+    setTimeout(() => setStatus('idle'), 300);
   };
 
-  if (isSubmitted) {
+  if (status !== 'idle') {
     return (
-      <Modal 
+      <StatusModal 
         isOpen={isOpen} 
         onClose={handleClose}
-        title="Request Submitted!"
+        status={status}
+        title={status === 'success' ? "Request Submitted!" : "Submitting..."}
+        message={status === 'success' ? "Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive." : "Please wait while we beam your request to our servers."}
         primaryAction={{ label: "Got it!", onClick: handleClose }}
-      >
-        <p>
-          Thank you for reaching out! Our academic team will review your requirements and get back to you within 24 hours to schedule a deep dive.
-        </p>
-      </Modal>
+      />
     );
   }
 

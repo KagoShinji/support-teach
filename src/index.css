@@ -9,7 +9,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply font-dm text-[#0C0A09] bg-[#F8F9FA] antialiased selection:bg-[#21C57D] selection:text-black min-h-[100dvh];
+    @apply font-dm text-[#0C0A09] bg-[#F8F9FA] antialiased selection:bg-[#21C57D] selection:text-black min-h-[100dvh] overflow-x-hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {

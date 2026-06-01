@@ -14,6 +14,7 @@ import { PoweredByEducators } from './components/sections/PoweredByEducators';
 import { ContactForm } from './components/sections/ContactForm';
 import { FinalCTA } from './components/sections/FinalCTA';
 import { AlienPage } from './components/pages/AlienPage';
+import { SplashScreen } from './components/ui/SplashScreen';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-brand-light font-dm">
+      <SplashScreen />
       <Navbar />
       <main>
         <Hero />
